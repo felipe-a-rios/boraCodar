@@ -1,8 +1,52 @@
-import { PlusMinus, Minus, X, Plus, Divide, Equals } from "phosphor-react";
-
-import { Button } from "./Button";
+import {
+  PlusMinus,
+  Minus,
+  X,
+  Plus,
+  Divide,
+  Equals,
+  Percent,
+} from "phosphor-react";
 import "./calcstyle.css";
+import "./buttonstyle.css";
+import { useState } from "react";
 export function Calculator() {
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [lastResult, setLastResult] = useState("");
+
+  const handleClick = (value: string) => {
+    setInput(input + value);
+  };
+
+  const handleEqual = () => {
+    try {
+      setOutput(eval(input).toString());
+      setLastResult(output);
+    } catch (error) {
+      setOutput("Error");
+    }
+  };
+
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
+    setLastResult("");
+  };
+  const handleNegative = () => {
+    setInput(input.startsWith("-") ? input.slice(1) : "-" + input);
+  };
+  const handleBackspace = () => {
+    setInput(input.slice(0, -1));
+  };
+  const handlePercent = () => {
+    try {
+      setInput(`(${input})/100`);
+      handleEqual();
+    } catch (error) {
+      setOutput("Error");
+    }
+  };
   return (
     <div
       id="box"
@@ -10,34 +54,157 @@ export function Calculator() {
     >
       <div className="h-20 w-full ">
         <span className="flex justify-end items-center text-right text-textGray text-lg leading-7 ">
-          1+1
+          {output}
         </span>
         <div className="flex flex-row items-center justify-between">
           <span className="text-textGray text-2xl">=</span>
-          <span className="text-textWhite text-4xl">2</span>
+          <span className="text-textWhite text-4xl">{input || 0}</span>
         </div>
       </div>
       <div className="flex flex-wrap gap-4 text-textWhite text-2xl ">
-        <Button operator="CE" textStyle={{ color: "#975DFA" }} />
-        <Button operator="C" />
-        <Button operator="%" />
-        <Button operator={<Divide size={28} />} bg="#462878" />
-        <Button num={7} />
-        <Button num={8} />
-        <Button num={9} />
-        <Button operator={<X size={28} />} bg="#462878" />
-        <Button num={4} />
-        <Button num={5} />
-        <Button num={6} />
-        <Button operator={<Minus size={28} />} bg="#462878" />
-        <Button num={1} />
-        <Button num={2} />
-        <Button num={3} />
-        <Button operator={<Plus size={28} />} bg="#462878" />
-        <Button operator={<PlusMinus size={28} />} />
-        <Button num={0} />
-        <Button operator="," />
-        <Button operator={<Equals size={28} />} bg="#7F45E2" />
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300 text-purple"
+          onClick={handleClear}
+        >
+          CE
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={handleBackspace}
+        >
+          C
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={handlePercent}
+        >
+          <Percent size={28} />
+        </button>
+        <button
+          id="buttonFunc"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("/")}
+        >
+          <Divide size={28} />
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("7")}
+        >
+          7
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("8")}
+        >
+          8
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("9")}
+        >
+          9
+        </button>
+
+        <button
+          id="buttonFunc"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("*")}
+        >
+          <X size={28} />
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("4")}
+        >
+          4
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("5")}
+        >
+          5
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("6")}
+        >
+          6
+        </button>
+
+        <button
+          id="buttonFunc"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("-")}
+        >
+          <Minus size={28} />
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("1")}
+        >
+          1
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("2")}
+        >
+          2
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("3")}
+        >
+          3
+        </button>
+
+        <button
+          id="buttonFunc"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("+")}
+        >
+          <Plus size={28} />
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={handleNegative}
+        >
+          <PlusMinus size={28} />
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick("0")}
+        >
+          0
+        </button>
+        <button
+          id="button"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-150 duration-300"
+          onClick={() => handleClick(".")}
+        >
+          ,
+        </button>
+        <button
+          id="buttonEquals"
+          className="flex items-center justify-center rounded-full w-16 h-16 hover:brightness-75 duration-300"
+          onClick={handleEqual}
+        >
+          <Equals size={28} />
+        </button>
       </div>
     </div>
   );
